@@ -1,0 +1,26 @@
+{
+  "questions": [
+    {
+      "topic": "Co to jest język programowania Python?",
+      "correctAnswear": 2,
+      "answears": [
+        {
+          "index": 1,
+          "question": "Ciasto o smaku marchewkowym"
+        },
+        {
+          "index": 2,
+          "question": "Język programowania"
+        },
+        {
+          "index": 3,
+          "question": "Część samochodowa"
+        },
+        {
+          "index": 4,
+          "question": "Model roweru"
+        }
+      ]
+    }
+  ]
+}
