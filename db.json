@@ -2,8 +2,8 @@
   "questions": [
     {
       "topic": "Co to jest język programowania Python?",
-      "correctAnswear": 2,
-      "answears": [
+      "correctAnswer": 2,
+      "answers": [
         {
           "index": 1,
           "question": "Ciasto o smaku marchewkowym"
