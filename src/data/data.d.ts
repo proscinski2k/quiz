@@ -1,21 +1,25 @@
-export interface Quiz{
-    name:string,
-    tests:Test[]
+import Test from "../class/Test";
+
+export interface ICoolQuiz {
+  state: number;
+  currentTest: Test | null;
+  name: string;
+  tests: Test[];
 }
 
-export interface Test {
-    title: string,
-    questions: Question[]
+export interface ITest {
+  title: string;
+  questions: Question[];
 }
 
-export interface Question {
-    question: string,
-    answers: Answer[],
-    timeSpent: number,
+export interface IQuestion {
+  question: string;
+  answers: Answer[];
+  timeSpent: number;
 }
 
-export interface Answer {
-    content: string,
-    id: string,
-    correctAnswer: boolean
+export interface IAnswer {
+  content: string;
+  id: string;
+  correctAnswer: boolean;
 }
