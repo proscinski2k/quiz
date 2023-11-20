@@ -1,29 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quiz</title>
-  </head>
-  <body>
-    <div id="wrapper"><h1 id="test-title"></h1></div>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test sample</title>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <h1 id="test-title"></h1>
+    </div>
     <section>
-      <div>
-        <div>Całkowity czas: <span id="total_time"></span></div>
-        <div>Czas na to zadanie: <span id="question_time"></span></div>
-      </div>
-      <h2>Pytanie: <span id="question"></span></h2>
-      <div id="answers"></div>
-      <div class="padding: 20px">
-        <button id="back" style="cursor: pointer">Poprzednie</button>
-        <button id="next" style="cursor: pointer">Następne</button>
-        <button id="end" style="cursor: pointer">Zakończ quiz</button>
-      </div>
-      <div id="result">
-        <span id="result__time"></span>
-        <span id="result__correct_answers"></span>
-      </div>
+        <h2>Pytanie: <span id="question"></span></h2>
+        <div id="answers"></div>
+        <div style="display: block;padding: 20px;">
+            <button id="back" style="cursor: pointer;">Poprzednie</button>
+            <button id="next" style="cursor: pointer;">Następne</button>
+            <button id="end" style="cursor: pointer;">Zakończ</button>
+
+            <h4>Czas: <span id="question-time">0</span></h4>
+            <h5>Czas całkowity: <span id="total-time">0</span></h5>
+        </div>
     </section>
+
     <script type="module" src="./index.js"></script>
-  </body>
+</body>
+
 </html>
