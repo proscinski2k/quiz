@@ -7,11 +7,11 @@ const nextNode = document.querySelector("#next");
 const endNode = document.querySelector("#end");
 const questionTimeNode = document.querySelector("#question-time");
 const totalTimeNode = document.querySelector("#total-time");
-// console.log(testData)
-titleNode.innerHTML = testData.title;
+console.log(testData);
+titleNode.innerHTML = testData.name;
 let currentIntervalId;
 localStorage.setItem("current-question-idx", "0");
-localStorage.setItem("test-data", JSON.stringify(testData));
+localStorage.setItem("test-data", JSON.stringify(testData.tests[0]));
 const startCounter = () => {
     let time = 0;
     currentIntervalId = setInterval(() => {
@@ -24,6 +24,7 @@ const stopCounter = () => {
 };
 const displayQuestion = () => {
     const currentIdx = parseInt(localStorage.getItem("current-question-idx"));
+    console.log(currentIdx);
     const currentQuestion = JSON.parse(localStorage.getItem("test-data")).questions[currentIdx];
     questionNode.innerHTML = currentQuestion.question;
     displayAnswers(currentQuestion.answers);

@@ -10,14 +10,14 @@ const endNode: HTMLButtonElement = document.querySelector("#end")!
 const questionTimeNode: HTMLSpanElement = document.querySelector("#question-time")!
 const totalTimeNode: HTMLSpanElement = document.querySelector("#total-time")!
 
-// console.log(testData)
+console.log(testData)
 
-titleNode.innerHTML = testData.title;
+titleNode.innerHTML = testData.name;
 
 let currentIntervalId: number
 
 localStorage.setItem("current-question-idx", "0")
-localStorage.setItem("test-data", JSON.stringify(testData))
+localStorage.setItem("test-data", JSON.stringify(testData.tests[0]))
 
 const startCounter = (): void => {
     let time: number = 0;
@@ -33,6 +33,7 @@ const stopCounter = ():void => {
 
 const displayQuestion = (): void => {
     const currentIdx: number = parseInt(localStorage.getItem("current-question-idx")!)
+    console.log(currentIdx)
     const currentQuestion: Question = JSON.parse(localStorage.getItem("test-data")!).questions[currentIdx]
     questionNode.innerHTML = currentQuestion.question;
     displayAnswers(currentQuestion.answers);
