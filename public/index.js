@@ -1,13 +1,4 @@
 import testData from "./data/test-data.js";
-const titleNode = document.querySelector("#test-title");
-const questionNode = document.querySelector("#question");
-const answersNode = document.querySelector("#answers");
-const backNode = document.querySelector("#back");
-const nextNode = document.querySelector("#next");
-const endNode = document.querySelector("#end");
-const questionTimeNode = document.querySelector("#question-time");
-const totalTimeNode = document.querySelector("#total-time");
-console.log(testData);
 titleNode.innerHTML = testData.name;
 let currentIntervalId;
 localStorage.setItem("current-question-idx", "0");
@@ -20,7 +11,7 @@ const startCounter = () => {
 };
 const stopCounter = () => {
     clearInterval(currentIntervalId);
-    questionTimeNode.innerHTML = '0';
+    questionTimeNode.innerHTML = "0";
 };
 const displayQuestion = () => {
     const currentIdx = parseInt(localStorage.getItem("current-question-idx"));
@@ -31,7 +22,7 @@ const displayQuestion = () => {
     startCounter();
 };
 const displayAnswers = (answers) => {
-    const answersRadio = answers.map(answer => {
+    const answersRadio = answers.map((answer) => {
         return `<div>
         <input type="radio" name="answer" id="${answer.id}" value="${answer.content}" />
         <label  for="${answer.id}">${answer.content}</label>
