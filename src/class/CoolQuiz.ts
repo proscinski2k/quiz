@@ -1,5 +1,5 @@
-import { ICoolQuiz } from "../data/data";
-import Test from "./Test";
+import { ICoolQuiz } from "../data/data.js";
+import Test from "./Test.js";
 
 export default class CoolQuiz implements ICoolQuiz {
   state: number = 0;
@@ -9,16 +9,19 @@ export default class CoolQuiz implements ICoolQuiz {
 
   constructor() {}
 
-  loadTestData(data: ICoolQuiz) {
+  loadTestData(data: ICoolQuiz): void {
     this.state = data.state;
     this.currentTest = data.currentTest;
     this.name = data.name;
     this.tests = data.tests;
   }
 
-  startTest(index: number) {
+  startTest(index: number): void {
     this.currentTest = new Test(this.tests[index]);
+    this.currentTest.initialize();
   }
 
-  endTest() {}
+  endTest(): void {
+    this.currentTest?.finish();
+  }
 }

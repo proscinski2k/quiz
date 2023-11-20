@@ -1,4 +1,4 @@
-import Test from "./Test";
+import Test from "./Test.js";
 export default class CoolQuiz {
     constructor() {
         this.state = 0;
@@ -14,6 +14,10 @@ export default class CoolQuiz {
     }
     startTest(index) {
         this.currentTest = new Test(this.tests[index]);
+        this.currentTest.initialize();
     }
-    endTest() { }
+    endTest() {
+        var _a;
+        (_a = this.currentTest) === null || _a === void 0 ? void 0 : _a.finish();
+    }
 }
