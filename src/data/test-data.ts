@@ -177,66 +177,56 @@ export default {
       questions: [
         {
           timeSpent: 0,
-          question: "Kto jest uznawany za założyciela buddyzmu?",
+          question: "Kto jest uznawany za założyciela chrześcijaństwa?",
           answers: [
-            { content: "Jezus Chrystus", id: "first", correctAnswer: false },
+            { content: "Jezus Chrystus", id: "first", correctAnswer: true },
             { content: "Mahawira", id: "second", correctAnswer: false },
-            {
-              content: "Budda Siddhartha Gautama",
-              id: "third",
-              correctAnswer: true,
-            },
+            { content: "Budda Siddhartha Gautama", id: "third", correctAnswer: false },
             { content: "Mohamed", id: "fourth", correctAnswer: false },
           ],
         },
         {
           timeSpent: 0,
-          question:
-            "Które z poniższych świąt jest obchodzone przez wyznawców hinduizmu?",
+          question: "Które z poniższych świąt jest obchodzone przez katolików?",
           answers: [
-            { content: "Boże Narodzenie", id: "first", correctAnswer: false },
-            { content: "Diwali", id: "second", correctAnswer: true },
+            { content: "Boże Narodzenie", id: "first", correctAnswer: true },
+            { content: "Diwali", id: "second", correctAnswer: false },
             { content: "Ramadan", id: "third", correctAnswer: false },
             { content: "Hanuka", id: "fourth", correctAnswer: false },
           ],
         },
         {
           timeSpent: 0,
-          question: "Co to jest Koran?",
+          question: "Co to jest Biblia?",
           answers: [
-            { content: "Biblia hinduizmu", id: "first", correctAnswer: false },
-            {
-              content: "Święta księga islamu",
-              id: "second",
-              correctAnswer: true,
-            },
+            { content: "Święta księga islamu", id: "first", correctAnswer: false },
+            { content: "Biblia katolicka", id: "second", correctAnswer: true },
             { content: "Księga Mormona", id: "third", correctAnswer: false },
             { content: "Stary Testament", id: "fourth", correctAnswer: false },
           ],
         },
         {
           timeSpent: 0,
-          question:
-            "Które z poniższych miast uważane jest za święte przez wyznawców judaizmu?",
+          question: "Które z poniższych miejsc uważane jest za święte przez katolików?",
           answers: [
-            { content: "Jerozolima", id: "first", correctAnswer: true },
+            { content: "Jerozolima", id: "first", correctAnswer: false },
             { content: "Mekka", id: "second", correctAnswer: false },
-            { content: "Varanasi", id: "third", correctAnswer: false },
+            { content: "Watykan", id: "third", correctAnswer: true },
             { content: "Rzym", id: "fourth", correctAnswer: false },
           ],
         },
         {
           timeSpent: 0,
-          question: "Kto jest głównym prorokiem w islamie?",
+          question: "Kto jest uznawany za głównego proroka w chrześcijaństwie?",
           answers: [
             { content: "Budda", id: "first", correctAnswer: false },
             { content: "Jezus Chrystus", id: "second", correctAnswer: false },
-            { content: "Mohamed", id: "third", correctAnswer: true },
-            { content: "Abraham", id: "fourth", correctAnswer: false },
+            { content: "Mohamed", id: "third", correctAnswer: false },
+            { content: "Jan Chrzciciel", id: "fourth", correctAnswer: true },
           ],
         },
       ],
-    },
+    }
     {
       title: "Anime",
       questions: [
