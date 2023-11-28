@@ -226,7 +226,7 @@ export default {
           ],
         },
       ],
-    }
+    },
     {
       title: "Anime",
       questions: [
