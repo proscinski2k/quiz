@@ -1,7 +1,6 @@
 export class Answer {
     constructor() {
-        this.id = "";
+        this.id = 0;
         this.content = "";
-        this.correctAnswer = false;
     }
 }

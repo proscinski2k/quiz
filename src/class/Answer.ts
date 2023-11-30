@@ -1,7 +1,6 @@
-import { IAnswer } from "../data/data.js";
+import {  iAnswer } from "../interfaces/test.interface";
 
-export class Answer implements IAnswer {
-  id: string = "";
-  content: string = "";
-  correctAnswer: boolean = false;
+export class Answer implements iAnswer {
+  id:number = 0;
+  content:string = "";
 }

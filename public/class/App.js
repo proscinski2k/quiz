@@ -1,8 +1,8 @@
 import Test from "./Test.js";
-export default class CoolQuiz {
+export default class App {
     constructor() {
         this.state = 0;
-        this.currentTest = null;
+        this.currentTest = undefined;
         this.name = "Quiz";
         this.tests = [];
     }

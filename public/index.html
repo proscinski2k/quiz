@@ -84,7 +84,7 @@
             </div>
           </div>
         </div>
-
+        
         <div id="category-religion" class="cursor-pointer flex h-80">
           <div class="card w-full bg-base-100 shadow-xl image-full">
             <figure>
@@ -115,7 +115,11 @@
 
     <!-- Quiz -->
     <div class="container mx-auto max-w-4xl mt-10">
-      <!-- <div id="test">
+      <div id="test-start" class="card shadow-md my-4 bg-base-200 p-8">
+        <h4>Wybrany test: <span id="test-name">Matematyka</span></h4>
+        <button class="btn btn-primary mt-4">Rozpocznij test!</button>
+      </div>
+      <div id="test" class="hidden">
         <div class="flex justify-end items-center">
           <span class="text-sm mr-4">Czas do końca: </span>
           <span class="countdown font-mono text-5xl">
@@ -155,7 +159,7 @@
         </div>
         <h4>Czas: <span id="question-time">0</span></h4>
         <h5>Czas całkowity: <span id="total-time">0</span></h5>
-      </div> -->
+      </div>
     </div>
 
     <script type="module" src="./index.js"></script>

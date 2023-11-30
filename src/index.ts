@@ -1,6 +1,8 @@
-import CoolQuiz from "./class/CoolQuiz.js";
-import testData from "./data/test-data.js";
+import App from './App.js'
+import appData from './data/test-data.js'
 
-const quiz = new CoolQuiz();
-quiz.loadTestData(testData);
-quiz.startTest(0);
+const app = new App()
+app.selectTest.onTestSelected = (selectedTest) => {
+    if (selectedTest) app.startTest(selectedTest)
+}
+app.loadTestData(appData)
