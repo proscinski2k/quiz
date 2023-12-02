@@ -1,30 +1,52 @@
-import { TestData, App as iApp } from './interfaces/test.interface.js'
-import Test from './class/Test.js'
-import SelectTest from './class/SelectTest.js'
+import { type QuizData, type App as iApp } from './interfaces/quiz.interface.js'
+import Quiz from './class/Quiz.js'
+import SelectQuiz from './class/SelectQuiz.js'
+import StartQuiz from './class/StartQuiz.js'
+import ManageView from './class/ManageViews.js'
 
 export default class App {
     state: number = 0
-    currentTest: Test | undefined = undefined
+    currentQuiz: Quiz | undefined = undefined
     name: string = 'Quiz'
-    tests: TestData[] = []
-    selectTest = new SelectTest()
+    quizzes: QuizData[] = []
+    manageViews: ManageView = new ManageView()
+    selectQuiz: SelectQuiz = new SelectQuiz(this.manageViews)
+    startQuizWindow: StartQuiz = new StartQuiz(this.manageViews, this.startQuiz.bind(this))
 
-    constructor() {}
+    constructor () {
+        this.watchSelectedQuiz()
+    }
 
-    loadTestData(data: iApp): void {
+    watchSelectedQuiz (): void {
+        this.selectQuiz.onQuizSelected = (selectedQuiz: number) => {
+            if (selectedQuiz > 0) {
+                this.setQuiz(selectedQuiz)
+                this.displayWindowDoYouWantStartQuiz()
+            }
+        }
+    }
+
+    setQuiz (quizId: number): void {
+        this.currentQuiz = new Quiz(this.quizzes[quizId - 1])
+    }
+
+    displayWindowDoYouWantStartQuiz (): void {
+        this.manageViews.changeVisibleSelectQuizView(true)
+        this.startQuizWindow.changeQuizName(String(this.currentQuiz?.title))
+    }
+
+    loadQuizData (data: iApp): void {
         this.state = data.state
-        this.currentTest = data.currentTest
+        this.currentQuiz = data.currentQuiz
         this.name = data.name
-        this.tests = data.tests
+        this.quizzes = data.quizzes
     }
 
-    startTest(index: number): void {
-        console.log(`Aktualny quiz ${index}`)
-        this.currentTest = new Test(this.tests[index - 1])
-        this.currentTest.initialize()
+    startQuiz (): void {
+        this.currentQuiz?.initialize()
     }
 
-    endTest(): void {
-        this.currentTest?.finish()
+    endQuiz = (): void => {
+        this.currentQuiz?.finish()
     }
 }

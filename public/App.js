@@ -1,26 +1,46 @@
-import Test from './class/Test.js';
-import SelectTest from './class/SelectTest.js';
+import Quiz from './class/Quiz.js';
+import SelectQuiz from './class/SelectQuiz.js';
+import StartQuiz from './class/StartQuiz.js';
+import ManageView from './class/ManageViews.js';
 export default class App {
     constructor() {
         this.state = 0;
-        this.currentTest = undefined;
+        this.currentQuiz = undefined;
         this.name = 'Quiz';
-        this.tests = [];
-        this.selectTest = new SelectTest();
+        this.quizzes = [];
+        this.manageViews = new ManageView();
+        this.selectQuiz = new SelectQuiz(this.manageViews);
+        this.startQuizWindow = new StartQuiz(this.manageViews, this.startQuiz.bind(this));
+        this.endQuiz = () => {
+            var _a;
+            (_a = this.currentQuiz) === null || _a === void 0 ? void 0 : _a.finish();
+        };
+        this.watchSelectedQuiz();
     }
-    loadTestData(data) {
-        this.state = data.state;
-        this.currentTest = data.currentTest;
-        this.name = data.name;
-        this.tests = data.tests;
+    watchSelectedQuiz() {
+        this.selectQuiz.onQuizSelected = (selectedQuiz) => {
+            if (selectedQuiz > 0) {
+                this.setQuiz(selectedQuiz);
+                this.displayWindowDoYouWantStartQuiz();
+            }
+        };
     }
-    startTest(index) {
-        console.log(`Aktualny quiz ${index}`);
-        this.currentTest = new Test(this.tests[index - 1]);
-        this.currentTest.initialize();
+    setQuiz(quizId) {
+        this.currentQuiz = new Quiz(this.quizzes[quizId - 1]);
     }
-    endTest() {
+    displayWindowDoYouWantStartQuiz() {
         var _a;
-        (_a = this.currentTest) === null || _a === void 0 ? void 0 : _a.finish();
+        this.manageViews.changeVisibleSelectQuizView(true);
+        this.startQuizWindow.changeQuizName(String((_a = this.currentQuiz) === null || _a === void 0 ? void 0 : _a.title));
+    }
+    loadQuizData(data) {
+        this.state = data.state;
+        this.currentQuiz = data.currentQuiz;
+        this.name = data.name;
+        this.quizzes = data.quizzes;
+    }
+    startQuiz() {
+        var _a;
+        (_a = this.currentQuiz) === null || _a === void 0 ? void 0 : _a.initialize();
     }
 }

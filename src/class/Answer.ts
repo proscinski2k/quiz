@@ -1,6 +1,6 @@
-import {  iAnswer } from "../interfaces/test.interface";
+import { type iAnswer } from '../interfaces/quiz.interface'
 
 export class Answer implements iAnswer {
-  id:number = 0;
-  content:string = "";
+    id: number = 0
+    content: string = ''
 }

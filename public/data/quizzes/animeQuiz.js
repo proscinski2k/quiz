@@ -9,8 +9,8 @@ const anime = {
                 { content: 'Hayao Miyazaki', id: 1 },
                 { content: 'Masashi Kishimoto', id: 2 },
                 { content: 'Mamoru Hosoda', id: 3 },
-                { content: 'Isao Takahata', id: 4 },
-            ],
+                { content: 'Isao Takahata', id: 4 }
+            ]
         },
         {
             timeSpent: 0,
@@ -21,10 +21,10 @@ const anime = {
                 { content: 'Komiks japoński', id: 2 },
                 {
                     content: 'Tradycyjna herbata',
-                    id: 3,
+                    id: 3
                 },
-                { content: 'Styl sztuk walki', id: 4 },
-            ],
+                { content: 'Styl sztuk walki', id: 4 }
+            ]
         },
         {
             timeSpent: 0,
@@ -34,8 +34,8 @@ const anime = {
                 { content: 'One Piece', id: 1 },
                 { content: 'Gundam Wing', id: 2 },
                 { content: 'Death Note', id: 3 },
-                { content: 'My Hero Academia', id: 4 },
-            ],
+                { content: 'My Hero Academia', id: 4 }
+            ]
         },
         {
             timeSpent: 0,
@@ -45,8 +45,8 @@ const anime = {
                 { content: 'Dragon Ball', id: 1 },
                 { content: 'One Punch Man', id: 2 },
                 { content: 'Naruto', id: 3 },
-                { content: 'Pokémon', id: 4 },
-            ],
+                { content: 'Pokémon', id: 4 }
+            ]
         },
         {
             timeSpent: 0,
@@ -55,19 +55,19 @@ const anime = {
             answers: [
                 {
                     content: 'Typ japońskiego jedzenia',
-                    id: 1,
+                    id: 1
                 },
                 { content: 'Sztuka origami', id: 2 },
                 {
                     content: 'Ubieranie się w stroje postaci z anime',
-                    id: 3,
+                    id: 3
                 },
                 {
                     content: 'Japońska sztuka walki',
-                    id: 4,
-                },
-            ],
-        },
-    ],
+                    id: 4
+                }
+            ]
+        }
+    ]
 };
 export default anime;

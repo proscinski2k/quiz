@@ -9,8 +9,8 @@ const religion = {
                 { content: 'Jezus Chrystus', id: 1 },
                 { content: 'Mahawira', id: 2 },
                 { content: 'Budda Siddhartha Gautama', id: 3 },
-                { content: 'Mohamed', id: 4 },
-            ],
+                { content: 'Mohamed', id: 4 }
+            ]
         },
         {
             timeSpent: 0,
@@ -20,8 +20,8 @@ const religion = {
                 { content: 'Boże Narodzenie', id: 1 },
                 { content: 'Diwali', id: 2 },
                 { content: 'Ramadan', id: 3 },
-                { content: 'Hanuka', id: 4 },
-            ],
+                { content: 'Hanuka', id: 4 }
+            ]
         },
         {
             timeSpent: 0,
@@ -31,8 +31,8 @@ const religion = {
                 { content: 'Święta księga islamu', id: 1 },
                 { content: 'Biblia katolicka', id: 2 },
                 { content: 'Księga Mormona', id: 3 },
-                { content: 'Stary Testament', id: 4 },
-            ],
+                { content: 'Stary Testament', id: 4 }
+            ]
         },
         {
             timeSpent: 0,
@@ -42,8 +42,8 @@ const religion = {
                 { content: 'Jerozolima', id: 1 },
                 { content: 'Mekka', id: 2 },
                 { content: 'Watykan', id: 3 },
-                { content: 'Rzym', id: 4 },
-            ],
+                { content: 'Rzym', id: 4 }
+            ]
         },
         {
             timeSpent: 0,
@@ -53,9 +53,9 @@ const religion = {
                 { content: 'Budda', id: 1 },
                 { content: 'Jezus Chrystus', id: 2 },
                 { content: 'Mohamed', id: 3 },
-                { content: 'Jan Chrzciciel', id: 4 },
-            ],
-        },
-    ],
+                { content: 'Jan Chrzciciel', id: 4 }
+            ]
+        }
+    ]
 };
 export default religion;

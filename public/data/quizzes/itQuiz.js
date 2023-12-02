@@ -9,17 +9,17 @@ const it = {
                 { content: 'Rodzaj węża', id: 1 },
                 {
                     content: 'Język programowania',
-                    id: 2,
+                    id: 2
                 },
                 {
                     content: 'Nazwa firmy produkującej oprogramowanie',
-                    id: 3,
+                    id: 3
                 },
                 {
                     content: 'Typ maszyny do pisania',
-                    id: 4,
-                },
-            ],
+                    id: 4
+                }
+            ]
         },
         {
             timeSpent: 0,
@@ -30,10 +30,10 @@ const it = {
                 { content: 'Edytor tekstu', id: 2 },
                 {
                     content: 'System kontroli wersji',
-                    id: 3,
+                    id: 3
                 },
-                { content: 'Kompilator', id: 4 },
-            ],
+                { content: 'Kompilator', id: 4 }
+            ]
         },
         {
             timeSpent: 0,
@@ -42,21 +42,21 @@ const it = {
             answers: [
                 {
                     content: 'Aplikacja internetowa',
-                    id: 1,
+                    id: 1
                 },
                 {
                     content: 'Automatyczne przetwarzanie informacji',
-                    id: 2,
+                    id: 2
                 },
                 {
                     content: 'Interfejs programowania aplikacji',
-                    id: 3,
+                    id: 3
                 },
                 {
                     content: 'Asynchroniczne programowanie internetowe',
-                    id: 4,
-                },
-            ],
+                    id: 4
+                }
+            ]
         },
         {
             timeSpent: 0,
@@ -65,18 +65,18 @@ const it = {
             answers: [
                 {
                     content: 'Proces programowania',
-                    id: 1,
+                    id: 1
                 },
                 {
                     content: 'Usuwanie błędów w kodzie',
-                    id: 2,
+                    id: 2
                 },
                 {
                     content: 'Tworzenie interfejsu użytkownika',
-                    id: 3,
+                    id: 3
                 },
-                { content: 'Analiza danych', id: 4 },
-            ],
+                { content: 'Analiza danych', id: 4 }
+            ]
         },
         {
             timeSpent: 0,
@@ -85,19 +85,19 @@ const it = {
             answers: [
                 {
                     content: 'Zmienna przechowująca dane',
-                    id: 1,
+                    id: 1
                 },
                 {
                     content: 'Instrukcja warunkowa',
-                    id: 2,
+                    id: 2
                 },
                 { content: 'Struktura danych', id: 3 },
                 {
                     content: 'Fragment kodu wykonywany wielokrotnie',
-                    id: 4,
-                },
-            ],
-        },
-    ],
+                    id: 4
+                }
+            ]
+        }
+    ]
 };
 export default it;
