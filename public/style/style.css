@@ -1,78 +1,86 @@
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css');
 
 body {
-  position: relative;
-  min-height: 100vh;
+    position: relative;
+    min-height: 100vh;
 }
 
 body::before {
-  content: "";
-  background: pink url("../assets/background.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  filter: blur(5px);
-  z-index: -1;
+    content: '';
+    background: pink url('../assets/background.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    filter: blur(5px);
+    z-index: -1;
 }
 
 #category-anime div figure div,
 #category-it div figure div,
 #category-religion div figure div,
 #category-math div figure div {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 #category-anime div figure div:nth-child(2),
 #category-it div figure div:nth-child(2),
 #category-religion div figure div:nth-child(2),
 #category-math div figure div:nth-child(2) {
-  position: absolute;
-  opacity: 0;
-  transition: 0.2s;
-  border-radius: 16px;
+    position: absolute;
+    opacity: 0;
+    transition: 0.2s;
+    border-radius: 16px;
 }
 
 #category-anime:hover div figure div:nth-child(2),
 #category-it:hover div figure div:nth-child(2),
 #category-religion:hover div figure div:nth-child(2),
 #category-math:hover div figure div:nth-child(2) {
-  opacity: 1;
-  border-radius: 16px;
+    opacity: 1;
+    border-radius: 16px;
 }
 
 #category-anime div figure div {
-  background-image: url("../assets/categories/anime.png");
+    background-image: url('../assets/categories/anime.png');
 }
 
 #category-anime div figure div:nth-child(2) {
-  background-image: url("../assets/categories/anime-hover.png");
+    background-image: url('../assets/categories/anime-hover.png');
 }
 
 #category-it div figure div {
-  background-image: url("../assets/categories/it.png");
+    background-image: url('../assets/categories/it.png');
 }
 
 #category-it div figure div:nth-child(2) {
-  background-image: url("../assets/categories/it-hover.png");
+    background-image: url('../assets/categories/it-hover.png');
 }
 
 #category-religion div figure div {
-  background-image: url("../assets/categories/religion.png");
+    background-image: url('../assets/categories/religion.png');
 }
 
 #category-religion div figure div:nth-child(2) {
-  background-image: url("../assets/categories/religion-hover.png");
+    background-image: url('../assets/categories/religion-hover.png');
 }
 
 #category-math div figure div {
-  background-image: url("../assets/categories/math.png");
+    background-image: url('../assets/categories/math.png');
 }
 
 #category-math div figure div:nth-child(2) {
-  background-image: url("../assets/categories/math-hover.png");
+    background-image: url('../assets/categories/math-hover.png');
+}
+
+.step-error:before {
+    background: #ff5861 !important;
+}
+
+.step-error + li:before {
+    background: #ff5861 !important;
 }

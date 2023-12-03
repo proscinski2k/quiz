@@ -1,19 +1,27 @@
 export default class ManageView {
     // HOME PAGE
-    quizzesSelectViewNode: HTMLDivElement = document.querySelector('#quizzes-view')!
+    quizzesSelectViewNode: HTMLDivElement =
+        document.querySelector('#quizzes-view')!
     // PICKED QUIZ *VALUE* [BACK TO QUIZZES | START QUIZ]
-    quizStartViewNode: HTMLDivElement = document.querySelector('#quiz-start-view')!
+    quizStartViewNode: HTMLDivElement =
+        document.querySelector('#quiz-start-view')!
     // QUIZ VIEW
     quizViewNode: HTMLDivElement = document.querySelector('#quiz-view')!
     // AUTHORS VIEW
-    authorsViewNode: HTMLDialogElement = document.querySelector('#authors-view')!
-    backToQuizzesViewNodes: NodeListOf<Element> = document.querySelectorAll('.back-to-quizzes-view')!
-    btnGoToAuthorsViewNode: HTMLButtonElement = document.querySelector('#button-go-to-authors-view')!
-    endQuiz: () => void
+    authorsViewNode: HTMLDivElement = document.querySelector('#authors-view')!
+    // SUMMARY VIEW
+    summaryViewNode: HTMLDivElement = document.querySelector(
+        '#quiz-result-summary-view',
+    )!
+    backToQuizzesViewNodes: NodeListOf<Element> = document.querySelectorAll(
+        '.back-to-quizzes-view',
+    )!
+    btnGoToAuthorsViewNode: HTMLButtonElement = document.querySelector(
+        '#button-go-to-authors-view',
+    )!
 
-    constructor (endQuiz: () => void) {
+    constructor(public onExitQuiz: () => void) {
         this.addEventListeners()
-        this.endQuiz = endQuiz
     }
 
     changeVisibleSelectQuizView = (visible: boolean): void => {
@@ -31,7 +39,16 @@ export default class ManageView {
     changeVisibleQuizView = (visible: boolean): void => {
         const quizView = this.quizViewNode.classList
         if (visible) quizView.remove('hidden')
-        else quizView.add('hidden')
+        else {
+            this.onExitQuiz()
+            quizView.add('hidden')
+        }
+    }
+
+    changeVisibleSummaryView = (visible: boolean): void => {
+        const summaryView = this.summaryViewNode.classList
+        if (visible) summaryView.remove('hidden')
+        else summaryView.add('hidden')
     }
 
     changeVisibleAuthorsView = (visible: boolean): void => {
@@ -45,20 +62,19 @@ export default class ManageView {
         this.changeVisibleStartQuizView(false)
         this.changeVisibleQuizView(false)
         this.changeVisibleSelectQuizView(false)
+        this.changeVisibleSummaryView(false)
     }
 
     addEventListeners = (): void => {
-        this.backToQuizzesViewNodes.forEach(element => {
+        this.backToQuizzesViewNodes.forEach((element) => {
             element.addEventListener('click', () => {
                 this.hideAllViews()
                 this.changeVisibleSelectQuizView(true)
-                this.endQuiz()
             })
         })
         this.btnGoToAuthorsViewNode.addEventListener('click', () => {
             this.hideAllViews()
             this.changeVisibleAuthorsView(true)
-            this.endQuiz()
         })
     }
 }

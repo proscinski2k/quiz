@@ -24,3 +24,13 @@ export interface iAnswer {
     content: string
     id: number
 }
+
+export interface AnswersResult {
+    answerId: number
+    isAnswered: boolean
+    isCorrect: boolean
+}
+export interface QuizResult {
+    quizName: string
+    answers: AnswersResult[]
+}

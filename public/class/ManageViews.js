@@ -1,5 +1,6 @@
 export default class ManageView {
-    constructor(endQuiz) {
+    constructor(onExitQuiz) {
+        this.onExitQuiz = onExitQuiz;
         // HOME PAGE
         this.quizzesSelectViewNode = document.querySelector('#quizzes-view');
         // PICKED QUIZ *VALUE* [BACK TO QUIZZES | START QUIZ]
@@ -8,6 +9,8 @@ export default class ManageView {
         this.quizViewNode = document.querySelector('#quiz-view');
         // AUTHORS VIEW
         this.authorsViewNode = document.querySelector('#authors-view');
+        // SUMMARY VIEW
+        this.summaryViewNode = document.querySelector('#quiz-result-summary-view');
         this.backToQuizzesViewNodes = document.querySelectorAll('.back-to-quizzes-view');
         this.btnGoToAuthorsViewNode = document.querySelector('#button-go-to-authors-view');
         this.changeVisibleSelectQuizView = (visible) => {
@@ -28,8 +31,17 @@ export default class ManageView {
             const quizView = this.quizViewNode.classList;
             if (visible)
                 quizView.remove('hidden');
-            else
+            else {
+                this.onExitQuiz();
                 quizView.add('hidden');
+            }
+        };
+        this.changeVisibleSummaryView = (visible) => {
+            const summaryView = this.summaryViewNode.classList;
+            if (visible)
+                summaryView.remove('hidden');
+            else
+                summaryView.add('hidden');
         };
         this.changeVisibleAuthorsView = (visible) => {
             const authorsView = this.authorsViewNode.classList;
@@ -43,22 +55,20 @@ export default class ManageView {
             this.changeVisibleStartQuizView(false);
             this.changeVisibleQuizView(false);
             this.changeVisibleSelectQuizView(false);
+            this.changeVisibleSummaryView(false);
         };
         this.addEventListeners = () => {
-            this.backToQuizzesViewNodes.forEach(element => {
+            this.backToQuizzesViewNodes.forEach((element) => {
                 element.addEventListener('click', () => {
                     this.hideAllViews();
                     this.changeVisibleSelectQuizView(true);
-                    this.endQuiz();
                 });
             });
             this.btnGoToAuthorsViewNode.addEventListener('click', () => {
                 this.hideAllViews();
                 this.changeVisibleAuthorsView(true);
-                this.endQuiz();
             });
         };
         this.addEventListeners();
-        this.endQuiz = endQuiz;
     }
 }

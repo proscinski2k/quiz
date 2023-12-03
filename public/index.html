@@ -11,25 +11,27 @@
 
     <body>
         <!--NAVBAR-->
-        <div class="navbar bg-black bg-opacity-25">
+        <div class="navbar bg-black bg-opacity-25 px-8">
             <div class="navbar-start">
-                <a class="back-to-quizzes-view cursor-pointer"
-                    ><img width="60px" src="./assets/logo.png"
-                /></a>
+                <a
+                    class="group back-to-quizzes-view cursor-pointer flex items-center"
+                    ><img
+                        width="60px"
+                        src="./assets/logo.png"
+                        class="group-hover:animate-spin"
+                    /><span
+                        class="text-xl ml-3 text-white group-hover:underline"
+                        >Strona główna</span
+                    ></a
+                >
             </div>
             <div class="navbar-end lg:flex">
-                <ul class="menu menu-horizontal px-1">
-                    <li>
-                        <a
-                            ><button
-                                id="button-go-to-authors-view"
-                                class="btn btn-outline text-white hover:bg-black hover:text-white"
-                            >
-                                Autorzy
-                            </button></a
-                        >
-                    </li>
-                </ul>
+                <button
+                    id="button-go-to-authors-view"
+                    class="btn btn-outline text-white hover:bg-black hover:text-white"
+                >
+                    Autorzy
+                </button>
             </div>
         </div>
         <!--Home page-->
@@ -155,12 +157,18 @@
                     </div>
                 </section>
             </div>
-            <h4 class="text-slate-900">
-                Czas: <span id="question-time">0</span>
-            </h4>
-            <h5 class="text-slate-900">
-                Czas całkowity: <span id="total-time">0</span>
-            </h5>
+            <div class="mt-3 flex flex-col">
+                <div class="badge badge-lg">
+                    <i class="bi bi-stopwatch-fill mr-2"></i>Czas zadania:
+                    <span id="question-time" class="mx-2 font-semibold">0</span>
+                    sek.
+                </div>
+                <div class="badge badge-lg mt-2">
+                    <i class="bi bi-stopwatch-fill mr-2"></i>Czas całkowity:
+                    <span id="total-time" class="mx-2 font-semibold">0</span>
+                    sek.
+                </div>
+            </div>
         </div>
 
         <!-- Quiz result summary view -->
@@ -169,56 +177,72 @@
             class="container mx-auto max-w-4xl mt-10 hidden"
         >
             <div class="card shadow-md my-4 bg-base-200 p-8">
-                <h4 class="text-2xl mb-6 text-center">
-                    Wynik
-                </h4>
-                <div class="grid grid-cols-3 justify-items-center">
-                    
-                </div> 
+                <h4 class="text-2xl mb-6 text-center">Wynik</h4>
+                <div class="grid grid-cols-2 justify-items-center items-center">
+                    <div id="quiz-result-summary__steps"></div>
+                    <div class="flex flex-col items-center">
+                        <div
+                            id="progress-bar"
+                            class="radial-progress"
+                            style="--value: 70"
+                            role="progressbar"
+                        >
+                            70%
+                        </div>
+                        <div class="text-center mt-4">
+                            Poprawne odpowiedzi:
+                            <span
+                                id="quiz-result-summary__correct-answers"
+                                class="font-semibold"
+                            ></span>
+                        </div>
+                        <button
+                            class="back-to-quizzes-view btn btn-primary mt-4"
+                        >
+                            <i class="bi bi-arrow-return-left"></i>Wróć do
+                            strony głównej
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Authors view -->
-        <div
-            id="authors-view"
-            class="container mx-auto max-w-4xl mt-10 hidden"
-        >
+        <div id="authors-view" class="container mx-auto max-w-4xl mt-10 hidden">
             <div class="card shadow-md my-4 bg-base-200 p-8">
-                <h4 class="text-2xl mb-6 text-center">
-                    Autorzy
-                </h4>
+                <h4 class="text-2xl mb-6 text-center">Autorzy</h4>
                 <div class="grid grid-cols-3 justify-items-center">
                     <div class="w-24">
                         <div class="avatar">
                             <div class="w-full mask mask-squircle">
-                              <img src="../public/assets/adrian.jpg" />
+                                <img src="../public/assets/adrian.jpg" />
                             </div>
-                          </div>
-                          <div class="text-center">Adrian</div>
+                        </div>
+                        <div class="text-center">Adrian</div>
                     </div>
                     <div class="w-24">
                         <div class="avatar">
                             <div class="w-full mask mask-squircle">
-                              <img src="../public/assets/adam.jpg" />
+                                <img src="../public/assets/adam.jpg" />
                             </div>
-                          </div>
-                          <div class="text-center">Adam</div>
+                        </div>
+                        <div class="text-center">Adam</div>
                     </div>
                     <div class="w-24">
                         <div class="avatar">
                             <div class="w-full mask mask-squircle">
-                              <img src="../public/assets/Maciek.JPG" />
+                                <img src="../public/assets/Maciek.JPG" />
                             </div>
-                          </div>
-                          <div class="text-center">Maciek</div>
+                        </div>
+                        <div class="text-center">Maciek</div>
                     </div>
                 </div>
-                  
             </div>
         </div>
-        
 
-        <div class="text-green-500 text-red-500"></div>
+        <div
+            class="step-success steps-vertical step steps step-error text-success text-error text-warning"
+        ></div>
 
         <script type="module" src="./index.js"></script>
     </body>

@@ -1,5 +1,7 @@
+import QuizResultSummary from './QuizResultSummary.js';
 export default class Quiz {
-    constructor(quizData) {
+    constructor(quizData, manageViews) {
+        this.manageViews = manageViews;
         this.quizStartNode = document.querySelector('#quiz-start');
         this.quizNameNode = document.querySelector('#quiz-name');
         this.titleNode = document.querySelector('#quiz-title');
@@ -22,7 +24,9 @@ export default class Quiz {
         this.finished = false;
         this.questions = quizData.questions.sort(() => Math.random() - 0.5);
         this.title = quizData.title;
-        this.answers = Array(this.questions.length).fill(null);
+        this.answers = Array(this.questions.length)
+            .fill({})
+            .map(() => ({ answerId: 0, isAnswered: false, isCorrect: false }));
         this.questionTimers = Array(this.questions.length).fill(0);
         this.startCounter();
     }
@@ -31,7 +35,6 @@ export default class Quiz {
         this.titleNode.innerText = this.title;
     }
     renderQuestion() {
-        console.log(`Aktualne pytanie: ${this.currentQuestionId}`);
         const currentQuestion = this.questions[this.currentQuestionId];
         this.questionNode.innerHTML = `(${this.currentQuestionId + 1}/${this.questions.length}) ${currentQuestion.question}`;
         this.renderAnswers();
@@ -39,32 +42,34 @@ export default class Quiz {
     }
     renderAnswers() {
         const isCorrectNode = document.getElementById('is-correct');
+        const answer = this.answers[this.currentQuestionId];
         isCorrectNode.innerHTML = '';
-        const answered = !(this.answers[this.currentQuestionId] == null);
-        const answeredCorrectly = answered &&
-            this.questions[this.currentQuestionId].correctAnswer ===
-                this.answers[this.currentQuestionId];
-        const answersRadio = this.questions[this.currentQuestionId].answers.map((answer) => {
+        const answered = answer.isAnswered;
+        const answeredCorrectly = answered && this.answers[this.currentQuestionId].isCorrect;
+        const answersRadio = this.questions[this.currentQuestionId].answers.map((el) => {
             return `<div>
-          <input type="radio" name="answer" id="answer-${answer.id}" ${answered ? 'disabled' : ''} ${answered && answer.id === this.answers[this.currentQuestionId]
-                ? 'checked'
-                : ''} />
-          <label  for="answer-${answer.id}">${answer.content}</label>
+          <input type="radio" name="answer" id="answer-${el.id}" ${answered ? 'disabled' : ''} ${answered && el.id === answer.answerId ? 'checked' : ''} />
+          <label  for="answer-${el.id}">${el.content}</label>
       </div>`;
         });
         this.answersNode.innerHTML = answersRadio.join('');
         if (answered && this.finished) {
-            isCorrectNode.innerHTML = `<span class="${answeredCorrectly ? 'text-green-500' : 'text-red-500'}">${answeredCorrectly ? 'DOBRA ODPOWIEDŹ!' : 'ZŁA ODPOWIEDŹ'}</span>`;
+            isCorrectNode.innerHTML = `<span class="${answeredCorrectly ? 'text-success' : 'text-error'}">${answeredCorrectly ? 'DOBRA ODPOWIEDŹ!' : 'ZŁA ODPOWIEDŹ'}</span>`;
         }
         else if (!answered) {
-            this.questions[this.currentQuestionId].answers.forEach((answer) => {
+            const answer = this.answers[this.currentQuestionId];
+            this.questions[this.currentQuestionId].answers.forEach((el) => {
                 var _a;
                 (_a = document
-                    .getElementById(`answer-${answer.id}`)) === null || _a === void 0 ? void 0 : _a.addEventListener('input', () => {
-                    if (this.answers[this.currentQuestionId] == null) {
+                    .getElementById(`answer-${el.id}`)) === null || _a === void 0 ? void 0 : _a.addEventListener('input', () => {
+                    if (!answer.isAnswered) {
                         this.answeredCount++;
                     }
-                    this.answers[this.currentQuestionId] = answer.id;
+                    this.answers[this.currentQuestionId].answerId = el.id;
+                    this.answers[this.currentQuestionId].isAnswered = true;
+                    this.answers[this.currentQuestionId].isCorrect =
+                        el.id ===
+                            this.questions[this.currentQuestionId].correctAnswer;
                     this.renderButtons();
                 });
             });
@@ -100,7 +105,6 @@ export default class Quiz {
                 return;
             e.preventDefault();
             e.stopPropagation();
-            // this.stopCounter()
             this.currentQuestionId++;
             this.renderQuestion();
         });
@@ -109,7 +113,6 @@ export default class Quiz {
                 return;
             e.preventDefault();
             e.stopPropagation();
-            // this.stopCounter()
             this.currentQuestionId--;
             this.renderQuestion();
         });
@@ -122,6 +125,9 @@ export default class Quiz {
             e.stopPropagation();
             this.stopCounter();
             this.renderQuestion();
+            this.quizResult = { quizName: this.title, answers: this.answers };
+            this.saveScoreToLocalStorage();
+            this.showSummary();
         });
     }
     startCounter() {
@@ -143,7 +149,16 @@ export default class Quiz {
     }
     exitQuiz() {
         this.stopCounter();
-        this.saveScoreToLocalStorage();
     }
-    saveScoreToLocalStorage() { }
+    showSummary() {
+        const quizResultSummary = new QuizResultSummary(this.quizResult);
+        this.manageViews.changeVisibleSummaryView(true);
+    }
+    saveScoreToLocalStorage() {
+        const finishedQuizzesLocalStorage = JSON.parse(localStorage.getItem('cool-quiz') || '[]');
+        const finishedQuizzes = finishedQuizzesLocalStorage
+            ? finishedQuizzesLocalStorage
+            : [];
+        localStorage.setItem('cool-quiz', JSON.stringify([...finishedQuizzes, this.quizResult]));
+    }
 }

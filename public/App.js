@@ -8,10 +8,14 @@ export default class App {
         this.currentQuiz = undefined;
         this.name = 'Quiz';
         this.quizzes = [];
-        this.manageViews = new ManageView(this.endQuiz.bind(this));
+        this.manageViews = new ManageView(this.onExitQuiz.bind(this));
         this.selectQuiz = new SelectQuiz(this.manageViews);
         this.startQuizWindow = new StartQuiz(this.manageViews, this.startQuiz.bind(this));
         this.watchSelectedQuiz();
+    }
+    onExitQuiz() {
+        var _a;
+        (_a = this.currentQuiz) === null || _a === void 0 ? void 0 : _a.exitQuiz();
     }
     watchSelectedQuiz() {
         this.selectQuiz.onQuizSelected = (selectedQuiz) => {
@@ -22,7 +26,7 @@ export default class App {
         };
     }
     setQuiz(quizId) {
-        this.currentQuiz = new Quiz(this.quizzes[quizId - 1]);
+        this.currentQuiz = new Quiz(this.quizzes[quizId - 1], this.manageViews);
     }
     displayWindowDoYouWantStartQuiz() {
         var _a;
@@ -38,9 +42,5 @@ export default class App {
     startQuiz() {
         var _a;
         (_a = this.currentQuiz) === null || _a === void 0 ? void 0 : _a.initialize();
-    }
-    endQuiz() {
-        var _a;
-        (_a = this.currentQuiz) === null || _a === void 0 ? void 0 : _a.exitQuiz();
     }
 }

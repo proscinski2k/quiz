@@ -1,6 +1,12 @@
-import { type QuizData } from '../interfaces/quiz.interface'
+import {
+    QuizResult,
+    type QuizData,
+    AnswersResult,
+} from '../interfaces/quiz.interface'
+import ManageView from './ManageViews'
 
 import { type Question } from './Question.js'
+import QuizResultSummary from './QuizResultSummary.js'
 
 export default class Quiz {
     quizStartNode: HTMLDivElement = document.querySelector('#quiz-start')!
@@ -26,7 +32,8 @@ export default class Quiz {
     title: string = ''
     questions: Question[] = []
 
-    answers: Array<number | null> = []
+    answers: AnswersResult[] = []
+
     answeredCount: number = 0
 
     questionTimers: number[] = []
@@ -34,21 +41,27 @@ export default class Quiz {
 
     finished: boolean = false
 
-    constructor (quizData: QuizData) {
+    quizResult?: QuizResult
+
+    constructor(
+        quizData: QuizData,
+        public manageViews: ManageView,
+    ) {
         this.questions = quizData.questions.sort(() => Math.random() - 0.5)
         this.title = quizData.title
-        this.answers = Array(this.questions.length).fill(null)
+        this.answers = Array(this.questions.length)
+            .fill({})
+            .map(() => ({ answerId: 0, isAnswered: false, isCorrect: false }))
         this.questionTimers = Array(this.questions.length).fill(0)
         this.startCounter()
     }
 
-    initialize (): void {
+    initialize(): void {
         this.renderQuestion()
         this.titleNode.innerText = this.title
     }
 
-    renderQuestion (): void {
-        console.log(`Aktualne pytanie: ${this.currentQuestionId}`)
+    renderQuestion(): void {
         const currentQuestion: Question = this.questions[this.currentQuestionId]
         this.questionNode.innerHTML = `(${this.currentQuestionId + 1}/${
             this.questions.length
@@ -57,26 +70,21 @@ export default class Quiz {
         this.renderCounters()
     }
 
-    renderAnswers (): void {
+    renderAnswers(): void {
         const isCorrectNode = document.getElementById('is-correct')!
+        const answer = this.answers[this.currentQuestionId]
         isCorrectNode.innerHTML = ''
-        const answered = !(this.answers[this.currentQuestionId] == null)
+        const answered = answer.isAnswered
         const answeredCorrectly =
-            answered &&
-            this.questions[this.currentQuestionId].correctAnswer ===
-                this.answers[this.currentQuestionId]
+            answered && this.answers[this.currentQuestionId].isCorrect
         const answersRadio: string[] = this.questions[
             this.currentQuestionId
-        ].answers.map((answer) => {
+        ].answers.map((el) => {
             return `<div>
-          <input type="radio" name="answer" id="answer-${answer.id}" ${
-    answered ? 'disabled' : ''
-} ${
-    answered && answer.id === this.answers[this.currentQuestionId]
-        ? 'checked'
-        : ''
-} />
-          <label  for="answer-${answer.id}">${answer.content}</label>
+          <input type="radio" name="answer" id="answer-${el.id}" ${
+              answered ? 'disabled' : ''
+          } ${answered && el.id === answer.answerId ? 'checked' : ''} />
+          <label  for="answer-${el.id}">${el.content}</label>
       </div>`
         })
 
@@ -84,19 +92,24 @@ export default class Quiz {
 
         if (answered && this.finished) {
             isCorrectNode.innerHTML = `<span class="${
-                answeredCorrectly ? 'text-green-500' : 'text-red-500'
+                answeredCorrectly ? 'text-success' : 'text-error'
             }">${
                 answeredCorrectly ? 'DOBRA ODPOWIEDŹ!' : 'ZŁA ODPOWIEDŹ'
             }</span>`
         } else if (!answered) {
-            this.questions[this.currentQuestionId].answers.forEach((answer) => {
+            const answer = this.answers[this.currentQuestionId]
+            this.questions[this.currentQuestionId].answers.forEach((el) => {
                 document
-                    .getElementById(`answer-${answer.id}`)
+                    .getElementById(`answer-${el.id}`)
                     ?.addEventListener('input', () => {
-                        if (this.answers[this.currentQuestionId] == null) {
+                        if (!answer.isAnswered) {
                             this.answeredCount++
                         }
-                        this.answers[this.currentQuestionId] = answer.id
+                        this.answers[this.currentQuestionId].answerId = el.id
+                        this.answers[this.currentQuestionId].isAnswered = true
+                        this.answers[this.currentQuestionId].isCorrect =
+                            el.id ===
+                            this.questions[this.currentQuestionId].correctAnswer
                         this.renderButtons()
                     })
             })
@@ -105,29 +118,29 @@ export default class Quiz {
         this.renderButtons()
     }
 
-    renderButtons (): void {
+    renderButtons(): void {
         this.controlButtonsContainer.innerHTML = `
         <div>
             <button class="btn btn-primary" id="back" ${
-    this.currentQuestionId === 0 ? 'disabled' : ''
-}>
+                this.currentQuestionId === 0 ? 'disabled' : ''
+            }>
                 Poprzednie
                 <i class="bi bi-arrow-left"></i>
             </button>
             <button class="btn btn-primary" id="next" ${
-    this.currentQuestionId === this.questions.length - 1
-        ? 'disabled'
-        : ''
-}>
+                this.currentQuestionId === this.questions.length - 1
+                    ? 'disabled'
+                    : ''
+            }>
                 Następne
                 <i class="bi bi-arrow-right"></i>
             </button>
         </div>
         <button class="btn btn-outline btn-error" id="end" ${
-    this.answeredCount === this.questions.length && !this.finished
-        ? ''
-        : 'disabled'
-}>
+            this.answeredCount === this.questions.length && !this.finished
+                ? ''
+                : 'disabled'
+        }>
             Zakończ
             <i class="bi bi-check-lg"></i>
         </button>
@@ -140,7 +153,6 @@ export default class Quiz {
             if (this.currentQuestionId >= this.questions.length - 1) return
             e.preventDefault()
             e.stopPropagation()
-            // this.stopCounter()
             this.currentQuestionId++
             this.renderQuestion()
         })
@@ -149,7 +161,6 @@ export default class Quiz {
             if (this.currentQuestionId <= 0) return
             e.preventDefault()
             e.stopPropagation()
-            // this.stopCounter()
             this.currentQuestionId--
             this.renderQuestion()
         })
@@ -163,10 +174,13 @@ export default class Quiz {
             e.stopPropagation()
             this.stopCounter()
             this.renderQuestion()
+            this.quizResult = { quizName: this.title, answers: this.answers }
+            this.saveScoreToLocalStorage()
+            this.showSummary()
         })
     }
 
-    startCounter (): void {
+    startCounter(): void {
         this.currentIntervalId = setInterval(() => {
             if (this.finished) return
             this.questionTimers[this.currentQuestionId]++
@@ -175,24 +189,40 @@ export default class Quiz {
         }, 1000)
     }
 
-    stopCounter (): void {
+    stopCounter(): void {
         clearInterval(this.currentIntervalId)
         this.questionTimeNode.innerHTML = `${
             this.questionTimers[this.currentQuestionId]
         }`
     }
 
-    renderCounters (): void {
+    renderCounters(): void {
         this.questionTimeNode.innerHTML = `${
             this.questionTimers[this.currentQuestionId]
         }`
         this.totalTimeNode.innerHTML = `${this.totalTimer}`
     }
 
-    exitQuiz (): void {
+    exitQuiz(): void {
         this.stopCounter()
-        this.saveScoreToLocalStorage()
     }
 
-    saveScoreToLocalStorage (): void {}
+    showSummary(): void {
+        const quizResultSummary = new QuizResultSummary(this.quizResult!)
+        this.manageViews.changeVisibleSummaryView(true)
+    }
+
+    saveScoreToLocalStorage(): void {
+        const finishedQuizzesLocalStorage: QuizResult[] | null = JSON.parse(
+            localStorage.getItem('cool-quiz') || '[]',
+        )
+
+        const finishedQuizzes = finishedQuizzesLocalStorage
+            ? finishedQuizzesLocalStorage
+            : []
+        localStorage.setItem(
+            'cool-quiz',
+            JSON.stringify([...finishedQuizzes, this.quizResult]),
+        )
+    }
 }
