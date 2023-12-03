@@ -3,12 +3,6 @@ import { type QuizData } from '../interfaces/quiz.interface'
 import { type Question } from './Question.js'
 
 export default class Quiz {
-    animeQuizNode: HTMLDivElement = document.querySelector('category-anime')!
-    mathQuizNoe: HTMLDivElement = document.querySelector('category-math')!
-    religionQuizNode: HTMLDivElement =
-        document.querySelector('category-religion')!
-
-    itQuizNoder: HTMLDivElement = document.querySelector('category-it')!
     quizStartNode: HTMLDivElement = document.querySelector('#quiz-start')!
     quizNameNode: HTMLSpanElement = document.querySelector('#quiz-name')!
     titleNode: HTMLHeadElement = document.querySelector('#quiz-title')!
@@ -19,6 +13,9 @@ export default class Quiz {
     endNode: HTMLButtonElement = document.querySelector('#end')!
     questionTimeNode: HTMLSpanElement =
         document.querySelector('#question-time')!
+    controlButtonsContainer: HTMLElement = document.querySelector(
+        '#control-buttons-container',
+    )!
 
     totalTimeNode: HTMLSpanElement = document.querySelector('#total-time')!
 
@@ -28,17 +25,122 @@ export default class Quiz {
     title: string = ''
     questions: Question[] = []
 
-    constructor (quizData: QuizData) {
-        this.questions = quizData.questions
+    answers: Array<number | null> = []
+    answeredCount: number = 0
+
+    questionTimers: number[] = []
+    totalTimer: number = 0
+
+    finished: boolean = false
+
+    constructor(quizData: QuizData) {
+        this.questions = quizData.questions.sort(() => Math.random() - 0.5)
         this.title = quizData.title
+        this.answers = Array(this.questions.length).fill(null)
+        this.questionTimers = Array(this.questions.length).fill(0)
+        this.startCounter()
     }
 
-    initialize (): void {
+    initialize(): void {
+        this.renderQuestion()
+        this.titleNode.innerText = this.title
+    }
+
+    finish(): void {}
+
+    renderQuestion(): void {
+        console.log(`Aktualne pytanie: ${this.currentQuestionId}`)
+        const currentQuestion: Question = this.questions[this.currentQuestionId]
+        this.questionNode.innerHTML = `(${this.currentQuestionId + 1}/${
+            this.questions.length
+        }) ${currentQuestion.question}`
+        this.renderAnswers()
+        this.renderCounters()
+    }
+
+    renderAnswers(): void {
+        const isCorrectNode = document.getElementById('is-correct')!
+        isCorrectNode.innerHTML = ''
+        const answered = !!this.answers[this.currentQuestionId]
+        const answeredCorrectly =
+            answered &&
+            this.questions[this.currentQuestionId].correctAnswer ==
+                this.answers[this.currentQuestionId]
+        const answersRadio: string[] = this.questions[
+            this.currentQuestionId
+        ].answers.map((answer) => {
+            return `<div>
+          <input type="radio" name="answer" id="answer-${answer.id}" ${
+              answered ? 'disabled' : ''
+          } ${
+              answered && answer.id == this.answers[this.currentQuestionId]
+                  ? 'checked'
+                  : ''
+          } />
+          <label  for="answer-${answer.id}">${answer.content}</label>
+      </div>`
+        })
+
+        this.answersNode.innerHTML = answersRadio.join('')
+
+        if (answered && this.finished) {
+            isCorrectNode.innerHTML = `<span class="${
+                answeredCorrectly ? 'text-green-500' : 'text-red-500'
+            }">${
+                answeredCorrectly ? 'DOBRA ODPOWIEDŹ!' : 'ZŁA ODPOWIEDŹ'
+            }</span>`
+        } else if (!answered) {
+            this.questions[this.currentQuestionId].answers.forEach((answer) => {
+                document
+                    .getElementById(`answer-${answer.id}`)
+                    ?.addEventListener('input', () => {
+                        if (!this.answers[this.currentQuestionId])
+                            this.answeredCount++
+                        this.answers[this.currentQuestionId] = answer.id
+                        this.renderButtons()
+                    })
+            })
+        }
+
+        this.renderButtons()
+    }
+
+    renderButtons(): void {
+        this.controlButtonsContainer.innerHTML = `
+        <div>
+            <button class="btn btn-primary" id="back" ${
+                this.currentQuestionId == 0 ? 'disabled' : ''
+            }>
+                Poprzednie
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <button class="btn btn-primary" id="next" ${
+                this.currentQuestionId == this.questions.length - 1
+                    ? 'disabled'
+                    : ''
+            }>
+                Następne
+                <i class="bi bi-arrow-right"></i>
+            </button>
+        </div>
+        <button class="btn btn-outline btn-error" id="end" ${
+            this.answeredCount == this.questions.length && !this.finished
+                ? ''
+                : 'disabled'
+        }>
+            Zakończ
+            <i class="bi bi-check-lg"></i>
+        </button>
+        `
+        this.backNode = document.querySelector('#back')!
+        this.nextNode = document.querySelector('#next')!
+        this.endNode = document.querySelector('#end')!
+
         this.nextNode.addEventListener('click', (e) => {
             if (this.currentQuestionId >= this.questions.length - 1) return
             e.preventDefault()
             e.stopPropagation()
-            this.stopCounter()
+            // this.stopCounter()
             this.currentQuestionId++
             this.renderQuestion()
         })
@@ -47,55 +149,44 @@ export default class Quiz {
             if (this.currentQuestionId <= 0) return
             e.preventDefault()
             e.stopPropagation()
-            this.stopCounter()
+            // this.stopCounter()
             this.currentQuestionId--
             this.renderQuestion()
         })
 
-        this.renderQuestion()
-        this.titleNode.innerText = this.title
-    }
-
-    finish (): void {}
-
-    renderQuestion (): void {
-        console.log(`Aktualne pytanie: ${this.currentQuestionId}`)
-        const currentQuestion: Question = this.questions[this.currentQuestionId]
-        this.questionNode.innerHTML = currentQuestion.question
-        this.renderAnswers()
-        this.startCounter()
-    }
-
-    renderAnswers (): void {
-        const answersRadio: string[] = this.questions[
-            this.currentQuestionId
-        ].answers.map((answer) => {
-            return `<div>
-          <input type="radio" name="answer" id="${answer.id}" value="${answer.content}" />
-          <label  for="${answer.id}">${answer.content}</label>
-      </div>`
+        this.endNode.addEventListener('click', (e) => {
+            if (this.finished || this.answeredCount != this.questions.length)
+                return
+            this.finished = true
+            e.preventDefault()
+            e.stopPropagation()
+            this.stopCounter()
+            this.renderQuestion()
         })
-
-        this.answersNode.innerHTML = answersRadio.join('')
     }
 
-    nextQuestion (e: Event): void {
-        e.preventDefault()
-        e.stopPropagation()
-        this.stopCounter()
-        this.currentQuestionId++
-        this.renderQuestion()
-    }
-
-    startCounter (): void {
-        let time: number = 0
+    startCounter(): void {
         this.currentIntervalId = setInterval(() => {
-            this.questionTimeNode.innerHTML = `${++time}`
+            if (this.finished) return
+            this.questionTimers[this.currentQuestionId]++
+            this.totalTimer++
+            this.renderCounters()
         }, 1000)
     }
 
-    stopCounter (): void {
+    stopCounter(): void {
         clearInterval(this.currentIntervalId)
-        this.questionTimeNode.innerHTML = '0'
+        this.questionTimeNode.innerHTML = `${
+            this.questionTimers[this.currentQuestionId]
+        }`
     }
+
+    renderCounters() {
+        this.questionTimeNode.innerHTML = `${
+            this.questionTimers[this.currentQuestionId]
+        }`
+        this.totalTimeNode.innerHTML = `${this.totalTimer}`
+    }
+
+    saveScoreToLocalStorage() {}
 }
