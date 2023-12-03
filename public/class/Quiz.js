@@ -30,7 +30,6 @@ export default class Quiz {
         this.renderQuestion();
         this.titleNode.innerText = this.title;
     }
-    finish() { }
     renderQuestion() {
         console.log(`Aktualne pytanie: ${this.currentQuestionId}`);
         const currentQuestion = this.questions[this.currentQuestionId];
@@ -41,13 +40,13 @@ export default class Quiz {
     renderAnswers() {
         const isCorrectNode = document.getElementById('is-correct');
         isCorrectNode.innerHTML = '';
-        const answered = !!this.answers[this.currentQuestionId];
+        const answered = !(this.answers[this.currentQuestionId] == null);
         const answeredCorrectly = answered &&
-            this.questions[this.currentQuestionId].correctAnswer ==
+            this.questions[this.currentQuestionId].correctAnswer ===
                 this.answers[this.currentQuestionId];
         const answersRadio = this.questions[this.currentQuestionId].answers.map((answer) => {
             return `<div>
-          <input type="radio" name="answer" id="answer-${answer.id}" ${answered ? 'disabled' : ''} ${answered && answer.id == this.answers[this.currentQuestionId]
+          <input type="radio" name="answer" id="answer-${answer.id}" ${answered ? 'disabled' : ''} ${answered && answer.id === this.answers[this.currentQuestionId]
                 ? 'checked'
                 : ''} />
           <label  for="answer-${answer.id}">${answer.content}</label>
@@ -62,8 +61,9 @@ export default class Quiz {
                 var _a;
                 (_a = document
                     .getElementById(`answer-${answer.id}`)) === null || _a === void 0 ? void 0 : _a.addEventListener('input', () => {
-                    if (!this.answers[this.currentQuestionId])
+                    if (this.answers[this.currentQuestionId] == null) {
                         this.answeredCount++;
+                    }
                     this.answers[this.currentQuestionId] = answer.id;
                     this.renderButtons();
                 });
@@ -74,18 +74,18 @@ export default class Quiz {
     renderButtons() {
         this.controlButtonsContainer.innerHTML = `
         <div>
-            <button class="btn btn-primary" id="back" ${this.currentQuestionId == 0 ? 'disabled' : ''}>
+            <button class="btn btn-primary" id="back" ${this.currentQuestionId === 0 ? 'disabled' : ''}>
                 Poprzednie
                 <i class="bi bi-arrow-left"></i>
             </button>
-            <button class="btn btn-primary" id="next" ${this.currentQuestionId == this.questions.length - 1
+            <button class="btn btn-primary" id="next" ${this.currentQuestionId === this.questions.length - 1
             ? 'disabled'
             : ''}>
                 Następne
                 <i class="bi bi-arrow-right"></i>
             </button>
         </div>
-        <button class="btn btn-outline btn-error" id="end" ${this.answeredCount == this.questions.length && !this.finished
+        <button class="btn btn-outline btn-error" id="end" ${this.answeredCount === this.questions.length && !this.finished
             ? ''
             : 'disabled'}>
             Zakończ
@@ -114,8 +114,9 @@ export default class Quiz {
             this.renderQuestion();
         });
         this.endNode.addEventListener('click', (e) => {
-            if (this.finished || this.answeredCount != this.questions.length)
+            if (this.finished || this.answeredCount !== this.questions.length) {
                 return;
+            }
             this.finished = true;
             e.preventDefault();
             e.stopPropagation();
@@ -139,6 +140,10 @@ export default class Quiz {
     renderCounters() {
         this.questionTimeNode.innerHTML = `${this.questionTimers[this.currentQuestionId]}`;
         this.totalTimeNode.innerHTML = `${this.totalTimer}`;
+    }
+    exitQuiz() {
+        this.stopCounter();
+        this.saveScoreToLocalStorage();
     }
     saveScoreToLocalStorage() { }
 }

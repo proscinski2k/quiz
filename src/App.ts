@@ -9,7 +9,7 @@ export default class App {
     currentQuiz: Quiz | undefined = undefined
     name: string = 'Quiz'
     quizzes: QuizData[] = []
-    manageViews: ManageView = new ManageView()
+    manageViews: ManageView = new ManageView(this.endQuiz.bind(this))
     selectQuiz: SelectQuiz = new SelectQuiz(this.manageViews)
     startQuizWindow: StartQuiz = new StartQuiz(this.manageViews, this.startQuiz.bind(this))
 
@@ -46,7 +46,7 @@ export default class App {
         this.currentQuiz?.initialize()
     }
 
-    endQuiz = (): void => {
-        this.currentQuiz?.finish()
+    endQuiz (): void {
+        this.currentQuiz?.exitQuiz()
     }
 }

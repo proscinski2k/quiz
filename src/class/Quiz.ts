@@ -13,6 +13,7 @@ export default class Quiz {
     endNode: HTMLButtonElement = document.querySelector('#end')!
     questionTimeNode: HTMLSpanElement =
         document.querySelector('#question-time')!
+
     controlButtonsContainer: HTMLElement = document.querySelector(
         '#control-buttons-container',
     )!
@@ -33,7 +34,7 @@ export default class Quiz {
 
     finished: boolean = false
 
-    constructor(quizData: QuizData) {
+    constructor (quizData: QuizData) {
         this.questions = quizData.questions.sort(() => Math.random() - 0.5)
         this.title = quizData.title
         this.answers = Array(this.questions.length).fill(null)
@@ -41,14 +42,12 @@ export default class Quiz {
         this.startCounter()
     }
 
-    initialize(): void {
+    initialize (): void {
         this.renderQuestion()
         this.titleNode.innerText = this.title
     }
 
-    finish(): void {}
-
-    renderQuestion(): void {
+    renderQuestion (): void {
         console.log(`Aktualne pytanie: ${this.currentQuestionId}`)
         const currentQuestion: Question = this.questions[this.currentQuestionId]
         this.questionNode.innerHTML = `(${this.currentQuestionId + 1}/${
@@ -58,25 +57,25 @@ export default class Quiz {
         this.renderCounters()
     }
 
-    renderAnswers(): void {
+    renderAnswers (): void {
         const isCorrectNode = document.getElementById('is-correct')!
         isCorrectNode.innerHTML = ''
-        const answered = !!this.answers[this.currentQuestionId]
+        const answered = !(this.answers[this.currentQuestionId] == null)
         const answeredCorrectly =
             answered &&
-            this.questions[this.currentQuestionId].correctAnswer ==
+            this.questions[this.currentQuestionId].correctAnswer ===
                 this.answers[this.currentQuestionId]
         const answersRadio: string[] = this.questions[
             this.currentQuestionId
         ].answers.map((answer) => {
             return `<div>
           <input type="radio" name="answer" id="answer-${answer.id}" ${
-              answered ? 'disabled' : ''
-          } ${
-              answered && answer.id == this.answers[this.currentQuestionId]
-                  ? 'checked'
-                  : ''
-          } />
+    answered ? 'disabled' : ''
+} ${
+    answered && answer.id === this.answers[this.currentQuestionId]
+        ? 'checked'
+        : ''
+} />
           <label  for="answer-${answer.id}">${answer.content}</label>
       </div>`
         })
@@ -94,8 +93,9 @@ export default class Quiz {
                 document
                     .getElementById(`answer-${answer.id}`)
                     ?.addEventListener('input', () => {
-                        if (!this.answers[this.currentQuestionId])
+                        if (this.answers[this.currentQuestionId] == null) {
                             this.answeredCount++
+                        }
                         this.answers[this.currentQuestionId] = answer.id
                         this.renderButtons()
                     })
@@ -105,29 +105,29 @@ export default class Quiz {
         this.renderButtons()
     }
 
-    renderButtons(): void {
+    renderButtons (): void {
         this.controlButtonsContainer.innerHTML = `
         <div>
             <button class="btn btn-primary" id="back" ${
-                this.currentQuestionId == 0 ? 'disabled' : ''
-            }>
+    this.currentQuestionId === 0 ? 'disabled' : ''
+}>
                 Poprzednie
                 <i class="bi bi-arrow-left"></i>
             </button>
             <button class="btn btn-primary" id="next" ${
-                this.currentQuestionId == this.questions.length - 1
-                    ? 'disabled'
-                    : ''
-            }>
+    this.currentQuestionId === this.questions.length - 1
+        ? 'disabled'
+        : ''
+}>
                 Następne
                 <i class="bi bi-arrow-right"></i>
             </button>
         </div>
         <button class="btn btn-outline btn-error" id="end" ${
-            this.answeredCount == this.questions.length && !this.finished
-                ? ''
-                : 'disabled'
-        }>
+    this.answeredCount === this.questions.length && !this.finished
+        ? ''
+        : 'disabled'
+}>
             Zakończ
             <i class="bi bi-check-lg"></i>
         </button>
@@ -155,8 +155,9 @@ export default class Quiz {
         })
 
         this.endNode.addEventListener('click', (e) => {
-            if (this.finished || this.answeredCount != this.questions.length)
+            if (this.finished || this.answeredCount !== this.questions.length) {
                 return
+            }
             this.finished = true
             e.preventDefault()
             e.stopPropagation()
@@ -165,7 +166,7 @@ export default class Quiz {
         })
     }
 
-    startCounter(): void {
+    startCounter (): void {
         this.currentIntervalId = setInterval(() => {
             if (this.finished) return
             this.questionTimers[this.currentQuestionId]++
@@ -174,19 +175,24 @@ export default class Quiz {
         }, 1000)
     }
 
-    stopCounter(): void {
+    stopCounter (): void {
         clearInterval(this.currentIntervalId)
         this.questionTimeNode.innerHTML = `${
             this.questionTimers[this.currentQuestionId]
         }`
     }
 
-    renderCounters() {
+    renderCounters (): void {
         this.questionTimeNode.innerHTML = `${
             this.questionTimers[this.currentQuestionId]
         }`
         this.totalTimeNode.innerHTML = `${this.totalTimer}`
     }
 
-    saveScoreToLocalStorage() {}
+    exitQuiz (): void {
+        this.stopCounter()
+        this.saveScoreToLocalStorage()
+    }
+
+    saveScoreToLocalStorage (): void {}
 }

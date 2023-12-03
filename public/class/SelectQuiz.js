@@ -5,33 +5,28 @@ export default class SelectQuiz {
         this.religionQuizNode = document.querySelector('#category-religion');
         this.itQuizNode = document.querySelector('#category-it');
         this.quizzesViewNode = document.querySelector('#quizzes-view');
-        this.selectedQuiz = 0;
-        this.notifySelected = () => {
+        this.notifySelected = (quizNumber) => {
             if (this.onQuizSelected !== undefined) {
-                this.onQuizSelected(this.selectedQuiz);
+                this.onQuizSelected(quizNumber);
             }
         };
-        this.onSelectQuiz = () => {
-            this.notifySelected();
+        this.onSelectQuiz = (quizNumber) => {
+            this.notifySelected(quizNumber);
             this.manageViews.changeVisibleSelectQuizView(false);
             this.manageViews.changeVisibleStartQuizView(true);
         };
         this.addListeners = () => {
-            this.mathQuizNode.addEventListener('click', (e) => {
-                this.selectedQuiz = 1;
-                this.onSelectQuiz();
+            this.mathQuizNode.addEventListener('click', () => {
+                this.onSelectQuiz(1);
             });
-            this.itQuizNode.addEventListener('click', (e) => {
-                this.selectedQuiz = 2;
-                this.onSelectQuiz();
+            this.itQuizNode.addEventListener('click', () => {
+                this.onSelectQuiz(2);
             });
-            this.religionQuizNode.addEventListener('click', (e) => {
-                this.selectedQuiz = 3;
-                this.onSelectQuiz();
+            this.religionQuizNode.addEventListener('click', () => {
+                this.onSelectQuiz(3);
             });
-            this.animeQuizNode.addEventListener('click', (e) => {
-                this.selectedQuiz = 4;
-                this.onSelectQuiz();
+            this.animeQuizNode.addEventListener('click', () => {
+                this.onSelectQuiz(4);
             });
         };
         this.addListeners();
