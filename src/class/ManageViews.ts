@@ -6,9 +6,11 @@ export default class ManageView {
     // QUIZ VIEW
     quizViewNode: HTMLDivElement = document.querySelector('#quiz-view')!
     backToQuizzesViewNodes: NodeListOf<Element> = document.querySelectorAll('.back-to-quizzes-view')!
+    endQuiz: () => void
 
-    constructor () {
+    constructor (endQuiz: () => void) {
         this.addEventListeners()
+        this.endQuiz = endQuiz
     }
 
     changeVisibleSelectQuizView = (visible: boolean): void => {
@@ -35,6 +37,7 @@ export default class ManageView {
                 this.changeVisibleSelectQuizView(true)
                 this.changeVisibleStartQuizView(false)
                 this.changeVisibleQuizView(false)
+                this.endQuiz()
             })
         })
     }

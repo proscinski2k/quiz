@@ -1,5 +1,5 @@
 export default class ManageView {
-    constructor() {
+    constructor(endQuiz) {
         // HOME PAGE
         this.quizzesSelectViewNode = document.querySelector('#quizzes-view');
         // PICKED QUIZ *VALUE* [BACK TO QUIZZES | START QUIZ]
@@ -34,9 +34,11 @@ export default class ManageView {
                     this.changeVisibleSelectQuizView(true);
                     this.changeVisibleStartQuizView(false);
                     this.changeVisibleQuizView(false);
+                    this.endQuiz();
                 });
             });
         };
         this.addEventListeners();
+        this.endQuiz = endQuiz;
     }
 }
