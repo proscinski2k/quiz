@@ -13,53 +13,12 @@
         <!--NAVBAR-->
         <div class="navbar bg-black bg-opacity-25">
             <div class="navbar-start">
-                <div class="dropdown">
-                    <label tabindex="0" class="btn btn-ghost lg:hidden">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M4 6h16M4 12h8m-8 6h16"
-                            />
-                        </svg>
-                    </label>
-                    <ul
-                        tabindex="0"
-                        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-                    >
-                        <li><a>Item 1</a></li>
-                        <li>
-                            <a>Parent</a>
-                            <ul class="p-2">
-                                <li><a>Submenu 1</a></li>
-                                <li><a>Submenu 2</a></li>
-                            </ul>
-                        </li>
-                        <li><a>Item 3</a></li>
-                    </ul>
-                </div>
                 <a class="back-to-quizzes-view cursor-pointer"
                     ><img width="60px" src="./assets/logo.png"
                 /></a>
             </div>
             <div class="navbar-end hidden lg:flex">
                 <ul class="menu menu-horizontal px-1">
-                    <li>
-                        <a
-                            ><button
-                                class="btn btn-outline text-white hover:bg-black hover:text-white"
-                            >
-                                Ranking
-                            </button></a
-                        >
-                    </li>
                     <li>
                         <a
                             ><button
@@ -202,6 +161,46 @@
                 Czas całkowity: <span id="total-time">0</span>
             </h5>
         </div>
+
+        <!-- Authors view -->
+        <div
+            id="authors-view"
+            class="container mx-auto max-w-4xl mt-10 hidden"
+        >
+            <div class="card shadow-md my-4 bg-base-200 p-8">
+                <h4 class="text-2xl mb-6 text-center">
+                    Autorzy
+                </h4>
+                <div class="grid grid-cols-3 justify-items-center">
+                    <div class="w-24">
+                        <div class="avatar">
+                            <div class="w-full mask mask-squircle">
+                              <img src="../public/assets/adrian.jpg" />
+                            </div>
+                          </div>
+                          <div class="text-center">Adrian</div>
+                    </div>
+                    <div class="w-24">
+                        <div class="avatar">
+                            <div class="w-full mask mask-squircle">
+                              <img src="../public/assets/adam.jpg" />
+                            </div>
+                          </div>
+                          <div class="text-center">Adam</div>
+                    </div>
+                    <div class="w-24">
+                        <div class="avatar">
+                            <div class="w-full mask mask-squircle">
+                              <img src="" />
+                            </div>
+                          </div>
+                          <div class="text-center">Maciek</div>
+                    </div>
+                </div>
+                  
+            </div>
+        </div>
+        
 
         <div class="text-green-500 text-red-500"></div>
 
