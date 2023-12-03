@@ -9,8 +9,6 @@ export default class SelectQuiz {
     itQuizNode: HTMLDivElement = document.querySelector('#category-it')!
 
     quizzesViewNode: HTMLDivElement = document.querySelector('#quizzes-view')!
-
-    selectedQuiz: number = 0
     manageViews: ManageView
 
     onQuizSelected: ((selectedQuiz: number) => void) | undefined
@@ -20,34 +18,30 @@ export default class SelectQuiz {
         this.manageViews = manageViews
     }
 
-    notifySelected = (): void => {
+    notifySelected = (quizNumber: number): void => {
         if (this.onQuizSelected !== undefined) {
-            this.onQuizSelected(this.selectedQuiz)
+            this.onQuizSelected(quizNumber)
         }
     }
 
-    onSelectQuiz = (): void => {
-        this.notifySelected()
+    onSelectQuiz = (quizNumber: number): void => {
+        this.notifySelected(quizNumber)
         this.manageViews.changeVisibleSelectQuizView(false)
         this.manageViews.changeVisibleStartQuizView(true)
     }
 
     addListeners = (): void => {
-        this.mathQuizNode.addEventListener('click', (e: Event) => {
-            this.selectedQuiz = 1
-            this.onSelectQuiz()
+        this.mathQuizNode.addEventListener('click', () => {
+            this.onSelectQuiz(1)
         })
-        this.itQuizNode.addEventListener('click', (e: Event) => {
-            this.selectedQuiz = 2
-            this.onSelectQuiz()
+        this.itQuizNode.addEventListener('click', () => {
+            this.onSelectQuiz(2)
         })
-        this.religionQuizNode.addEventListener('click', (e: Event) => {
-            this.selectedQuiz = 3
-            this.onSelectQuiz()
+        this.religionQuizNode.addEventListener('click', () => {
+            this.onSelectQuiz(3)
         })
-        this.animeQuizNode.addEventListener('click', (e: Event) => {
-            this.selectedQuiz = 4
-            this.onSelectQuiz()
+        this.animeQuizNode.addEventListener('click', () => {
+            this.onSelectQuiz(4)
         })
     }
 }
