@@ -17,11 +17,12 @@
                     ><img width="60px" src="./assets/logo.png"
                 /></a>
             </div>
-            <div class="navbar-end hidden lg:flex">
+            <div class="navbar-end lg:flex">
                 <ul class="menu menu-horizontal px-1">
                     <li>
                         <a
                             ><button
+                                id="button-go-to-authors-view"
                                 class="btn btn-outline text-white hover:bg-black hover:text-white"
                             >
                                 Autorzy
@@ -160,6 +161,21 @@
             <h5 class="text-slate-900">
                 Czas całkowity: <span id="total-time">0</span>
             </h5>
+        </div>
+
+        <!-- Quiz result summary view -->
+        <div
+            id="quiz-result-summary-view"
+            class="container mx-auto max-w-4xl mt-10 hidden"
+        >
+            <div class="card shadow-md my-4 bg-base-200 p-8">
+                <h4 class="text-2xl mb-6 text-center">
+                    Wynik
+                </h4>
+                <div class="grid grid-cols-3 justify-items-center">
+                    
+                </div> 
+            </div>
         </div>
 
         <!-- Authors view -->
